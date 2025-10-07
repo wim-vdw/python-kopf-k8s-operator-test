@@ -1,7 +1,7 @@
 apiVersion: wim-vdw.io/v1alpha1
 kind: MyCustomDatabase
 metadata:
-  name: my-database
+  name: my-database-1
 spec:
   highAvailability: true
   region: WestEurope

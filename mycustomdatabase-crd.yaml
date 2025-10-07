@@ -24,9 +24,25 @@ spec:
           spec:
             type: object
             properties:
-              highAvailability:
-                type: boolean
-              region:
-                type: string
               databaseSizeGb:
                 type: integer
+              region:
+                type: string
+              highAvailability:
+                type: boolean
+    additionalPrinterColumns:
+    - name: Size
+      type: integer
+      jsonPath: .spec.databaseSizeGb
+      description: Size of the database in GB
+      priority: 0
+    - name: Region
+      type: string
+      jsonPath: .spec.region
+      description: Region where the database is hosted
+      priority: 1
+    - name: HA
+      type: boolean
+      jsonPath: .spec.highAvailability
+      description: High Availability enabled
+      priority: 1
