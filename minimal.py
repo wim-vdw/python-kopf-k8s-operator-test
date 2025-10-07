@@ -3,12 +3,13 @@ import logging
 
 
 @kopf.on.create('wim-vdw.io', 'v1alpha1', 'mycustomdatabases')
-def create_fn(spec, name, **kwargs):
+def create_fn(spec, name, patch, **kwargs):
     logging.info(f'********* Creating a new database instance [{name}] **********')
     logging.info(f'Size in Gb     : {spec.get('databaseSizeGb')}')
     logging.info(f'High Available : {spec.get('highAvailability')}')
     logging.info(f'Region         : {spec.get('region')}')
     logging.info(f'********** End of creation logic **********')
+    patch.status['phase'] = 'Created'
 
 
 @kopf.on.update('wim-vdw.io', 'v1alpha1', 'mycustomdatabases')
@@ -24,6 +25,7 @@ def update_fn(name, old, new, patch, **kwargs):
         patch.spec['databaseSizeGb'] = old['spec'].get('databaseSizeGb')
         raise kopf.PermanentError("Downsizing the database is not allowed.")
     logging.info(f'********** End of updating logic **********')
+    patch.status['phase'] = 'Updated'
 
 
 @kopf.on.delete('wim-vdw.io', 'v1alpha1', 'mycustomdatabases')
